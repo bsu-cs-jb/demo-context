@@ -1,12 +1,21 @@
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { LabelText } from "./Shared";
 import { useContext } from "react";
 import { NameAgeContext } from "./NameAgeContext";
 
 export function EmployeeView() {
   // use the NameAgeContext directly
-  const { name, age } = useContext(NameAgeContext);
+  const { people } = useContext(NameAgeContext);
 
+  return (
+    <ScrollView>
+      {people.map((person) => (
+        <PersonView key={person.id} person={person} />
+      ))}
+    </ScrollView>
+  );
+}
+export function PersonView({ person: { name, age } }) {
   return (
     <View>
       <Text>

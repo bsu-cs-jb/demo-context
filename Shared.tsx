@@ -18,7 +18,7 @@ import {
 import styles from "./styles";
 import { useScale } from "./ScaleContext";
 
-const RENDER_HIGHLIGHT = false;
+const RENDER_HIGHLIGHT = true;
 
 interface CustomStyleTextProps extends TextProps {
   customStyle?: StyleProp<TextStyle>;

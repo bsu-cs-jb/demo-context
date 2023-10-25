@@ -1,11 +1,12 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 import { SubtitleText, TitleText } from "./Shared";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import sharedStyles from "./styles";
-import { NameAgeContext } from "./NameAgeContext";
+import { NameAgeContext, NameAgeProvider } from "./NameAgeContext";
 import { EmployeeView } from "./EmployeeView";
 import { EmployeeEditView } from "./EmployeeEditView";
+import { log } from "./utils";
 
 export default function ContextDemo() {
   // state for the NameAgeContext
@@ -13,17 +14,12 @@ export default function ContextDemo() {
   const [age, setAge] = useState(30);
 
   return (
-    <NameAgeContext.Provider value={{ name, age }}>
+    <NameAgeProvider>
       <View style={styles.container}>
         <TitleText>Context Demo</TitleText>
         <View style={[sharedStyles.box, { flex: 1 }]}>
           <SubtitleText>Input</SubtitleText>
-          <EmployeeEditView
-            name={name}
-            onChangeName={setName}
-            age={age}
-            onChangeAge={setAge}
-          />
+          <EmployeeEditView />
         </View>
         <View style={[sharedStyles.box, { flex: 1 }]}>
           <SubtitleText>Output</SubtitleText>
@@ -32,7 +28,7 @@ export default function ContextDemo() {
         </View>
         <StatusBar style="auto" />
       </View>
-    </NameAgeContext.Provider>
+    </NameAgeProvider>
   );
 }
 
