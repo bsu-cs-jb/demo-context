@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect, useRef, useState } from "react";
+import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -206,4 +206,25 @@ export function LctInput({ style, ...props }: LctInputProps) {
     [styles.input, style, scaleStyle],
   );
   return <TextInput style={computedStyle} {...props} />;
+}
+
+export function Form({
+  style,
+  children,
+}: PropsWithChildren<{ style?: ViewStyle }>) {
+  return <View style={[styles.formContainer, style]}>{children}</View>;
+}
+
+export function FormRow({
+  style,
+  children,
+}: PropsWithChildren<{ style?: ViewStyle }>) {
+  return <View style={[styles.formRow, style]}>{children}</View>;
+}
+
+export function FormColumn({
+  style,
+  children,
+}: PropsWithChildren<{ style?: ViewStyle }>) {
+  return <View style={[styles.formColumn, style]}>{children}</View>;
 }

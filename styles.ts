@@ -91,8 +91,9 @@ const sharedStyles = StyleSheet.create({
   },
   formColumn: {
     flex: 1,
+    flexDirection: "row",
     alignItems: "flex-start",
-    justifyContent: "center",
+    gap: 8,
   },
   input: {
     fontSize: 18,

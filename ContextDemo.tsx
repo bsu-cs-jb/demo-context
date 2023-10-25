@@ -1,78 +1,104 @@
 import { StatusBar } from "expo-status-bar";
-import { ScrollView, StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import {
   BigButton,
-  FlexFill,
+  Form,
+  FormColumn,
+  FormRow,
   LabelText,
-  LctHorzContainer,
   LctInput,
   SubtitleText,
   TitleText,
 } from "./Shared";
-import { createContext, useContext, useState } from "react";
+import { useState } from "react";
 import sharedStyles from "./styles";
-import { EditWatchlistModal } from "./EditWatchlistModal";
-import { genid, log, range } from "./utils";
-
-// Single screen context
-const SimpleContext = createContext<NameAge>({ name: "", age: 0 });
-
-function PersonView() {
-  const { name, age } = useContext(SimpleContext);
-  return (
-    <View>
-      <LabelText>Name: {name}</LabelText>
-      <LabelText>Age: {age}</LabelText>
-    </View>
-  );
-}
-
-interface NameAge {
-  name: string;
-  age: number;
-}
+import { JobContextProvider } from "./JobContext";
+import { NameAgeContext } from "./NameAgeContext";
+import { EmployeeView } from "./EmployeeView";
 
 export default function ContextDemo() {
+  // state for the NameAgeContext
   const [name, setName] = useState("Chuckie");
   const [age, setAge] = useState(30);
 
-  const contextValue = {
-    name,
-    age,
-  };
+  // state for the JobContext. This will be passed to the provider
+  const [title, setTitle] = useState("Software Engineer");
+  const [years, setYears] = useState(7);
 
   return (
-    <SimpleContext.Provider value={contextValue}>
-      <View style={styles.container}>
-        <TitleText>Context Demo</TitleText>
-        <View style={[sharedStyles.box, { flex: 1 }]}>
-          <SubtitleText>Input</SubtitleText>
-          <LctHorzContainer>
-            <LabelText>Name:</LabelText>
-            <LctInput value={name} onChangeText={setName} />
-          </LctHorzContainer>
-          <LctHorzContainer>
-            <LabelText>Age:</LabelText>
-            <LabelText>{age}</LabelText>
-            <BigButton
-              style={styles.plusMinus}
-              title="-"
-              onPress={() => setAge((age) => age - 5)}
-            />
-            <BigButton
-              style={styles.plusMinus}
-              title="+"
-              onPress={() => setAge((age) => age + 5)}
-            />
-          </LctHorzContainer>
+    <NameAgeContext.Provider value={{ name, age }}>
+      {/* The JobContextProvider accepts title and years as properties */}
+      <JobContextProvider title={title} years={years}>
+        <View style={styles.container}>
+          <TitleText>Context Demo</TitleText>
+          <View style={[sharedStyles.box, { flex: 1 }]}>
+            <SubtitleText>Input</SubtitleText>
+            <Form>
+              <FormRow>
+                <FormColumn style={{ flex: 0.3 }}>
+                  <LabelText style={styles.label}>Name:</LabelText>
+                </FormColumn>
+                <FormColumn>
+                  <LctInput value={name} onChangeText={setName} />
+                </FormColumn>
+              </FormRow>
+              <FormRow>
+                <FormColumn style={{ flex: 0.3 }}>
+                  <LabelText style={styles.label}>Age:</LabelText>
+                </FormColumn>
+                <FormColumn>
+                  <LabelText>{age}</LabelText>
+                  <BigButton
+                    style={styles.plusMinus}
+                    title="-"
+                    onPress={() => setAge((age) => age - 5)}
+                  />
+                  <BigButton
+                    style={styles.plusMinus}
+                    title="+"
+                    onPress={() => setAge((age) => age + 5)}
+                  />
+                </FormColumn>
+              </FormRow>
+              <FormRow>
+                <FormColumn style={{ flex: 0.3 }}>
+                  <LabelText style={styles.label}>Title:</LabelText>
+                </FormColumn>
+                <FormColumn>
+                  <LctInput value={title} onChangeText={setTitle} />
+                </FormColumn>
+              </FormRow>
+              <FormRow>
+                <FormColumn style={{ flex: 0.3 }}>
+                  <LabelText style={styles.label}>Years:</LabelText>
+                </FormColumn>
+                <FormColumn>
+                  <LabelText>{years}</LabelText>
+                  <BigButton
+                    style={styles.plusMinus}
+                    title="-"
+                    onPress={() => setYears((years) => Math.max(0, years - 1))}
+                  />
+                  <BigButton
+                    style={styles.plusMinus}
+                    title="+"
+                    onPress={() =>
+                      setYears((years) => Math.min(age, years + 1))
+                    }
+                  />
+                </FormColumn>
+              </FormRow>
+            </Form>
+          </View>
+          <View style={[sharedStyles.box, { flex: 1 }]}>
+            <SubtitleText>Output</SubtitleText>
+            {/* Display the values of both contexts in the EmployeeView */}
+            <EmployeeView />
+          </View>
+          <StatusBar style="auto" />
         </View>
-        <View style={[sharedStyles.box, { flex: 1 }]}>
-          <SubtitleText>Output</SubtitleText>
-          <PersonView />
-        </View>
-        <StatusBar style="auto" />
-      </View>
-    </SimpleContext.Provider>
+      </JobContextProvider>
+    </NameAgeContext.Provider>
   );
 }
 
@@ -88,5 +114,8 @@ const styles = StyleSheet.create({
   },
   plusMinus: {
     paddingHorizontal: 15,
+  },
+  label: {
+    fontWeight: "bold",
   },
 });
