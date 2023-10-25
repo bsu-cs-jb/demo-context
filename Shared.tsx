@@ -7,6 +7,8 @@ import {
   PressableProps,
   StyleProp,
   Text,
+  TextInput,
+  TextInputProps,
   TextProps,
   TextStyle,
   View,
@@ -182,7 +184,7 @@ export function BigButton({ title, onPress, style, ...props }: BigButtonProps) {
   return (
     <Pressable
       style={({ pressed }) => [
-        style,
+        scaleStyle(style),
         scaleStyle(
           pressed ? styles.bigButtonPressed : styles.bigButtonUnpressed,
         ),
@@ -193,4 +195,15 @@ export function BigButton({ title, onPress, style, ...props }: BigButtonProps) {
       <LabelText>{title}</LabelText>
     </Pressable>
   );
+}
+
+interface LctInputProps extends TextInputProps {}
+
+export function LctInput({ style, ...props }: LctInputProps) {
+  const { scaleStyle } = useScale();
+  const computedStyle = React.useMemo(
+    () => [scaleStyle(styles.input), scaleStyle(style)],
+    [styles.input, style, scaleStyle],
+  );
+  return <TextInput style={computedStyle} {...props} />;
 }

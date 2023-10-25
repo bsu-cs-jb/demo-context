@@ -58,7 +58,7 @@ export function scaleStyle(
   propsToScale = propsToScale || SCALE_STYLES;
   const scaledStyle = { ...style };
   for (const prop of propsToScale) {
-    if (prop in style) {
+    if (prop in style && typeof style[prop] === "number") {
       scaledStyle[prop] = style[prop] * scale;
     }
   }
