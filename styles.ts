@@ -87,12 +87,12 @@ const sharedStyles = StyleSheet.create({
   formRow: {
     width: "100%",
     flexDirection: "row",
-    alignItems: "flex-end",
+    alignItems: "center",
   },
   formColumn: {
     flex: 1,
     flexDirection: "row",
-    alignItems: "flex-start",
+    alignItems: "center",
     gap: 8,
   },
   input: {
