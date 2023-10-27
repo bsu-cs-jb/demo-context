@@ -1,31 +1,41 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { LabelText } from "./Shared";
+import { BigButton, FlexFill, LabelText } from "./Shared";
 import { useContext } from "react";
-import { NameAgeContext } from "./NameAgeContext";
+import { NameAge, NameAgeContext } from "./NameAgeContext";
+import sharedStyles from "./styles";
 
 export function EmployeeView() {
   // use the NameAgeContext directly
-  const { people } = useContext(NameAgeContext);
+  const { people, deletePerson } = useContext(NameAgeContext);
 
   return (
     <ScrollView>
       {people.map((person) => (
-        <PersonView key={person.id} person={person} />
+        <PersonView key={person.id} person={person} onDelete={deletePerson} />
       ))}
     </ScrollView>
   );
 }
-export function PersonView({ person: { name, age } }) {
+
+interface PersonViewProps {
+  person: NameAge;
+  onDelete: (person: NameAge) => void;
+}
+export function PersonView({ person, onDelete }: PersonViewProps) {
   return (
-    <View>
-      <Text>
-        <LabelText style={styles.label}>Name: </LabelText>
-        <LabelText>{name}</LabelText>
-      </Text>
-      <Text>
-        <LabelText style={styles.label}>Age: </LabelText>
-        <LabelText>{age}</LabelText>
-      </Text>
+    <View style={sharedStyles.horzContainer}>
+      <View>
+        <Text>
+          <LabelText style={styles.label}>Name: </LabelText>
+          <LabelText>{person.name}</LabelText>
+        </Text>
+        <Text>
+          <LabelText style={styles.label}>Age: </LabelText>
+          <LabelText>{person.age}</LabelText>
+        </Text>
+      </View>
+      <FlexFill />
+      <BigButton title="Delete" onPress={() => onDelete(person)} />
     </View>
   );
 }

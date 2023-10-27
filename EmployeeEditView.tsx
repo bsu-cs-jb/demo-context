@@ -11,14 +11,7 @@ import { useContext, useState } from "react";
 import { NameAgeContext } from "./NameAgeContext";
 import { genid } from "./utils";
 
-interface EmployeeEditViewProps {
-  // name: string;
-  // onChangeName: (name: string) => void;
-  // age: number;
-  // onChangeAge: (age: number) => void;
-}
 export function EmployeeEditView() {
-  // const { name, setName, age, setAge } = useContext(NameAgeContext);
   const { addPerson } = useContext(NameAgeContext);
   const [name, setName] = useState("Chuckie");
   const [age, setAge] = useState(30);
