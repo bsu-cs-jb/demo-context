@@ -1,18 +1,12 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 import { SubtitleText, TitleText } from "./Shared";
-import { useContext, useState } from "react";
 import sharedStyles from "./styles";
-import { NameAgeContext, NameAgeProvider } from "./NameAgeContext";
+import { NameAgeProvider } from "./NameAgeContext";
 import { EmployeeView } from "./EmployeeView";
 import { EmployeeEditView } from "./EmployeeEditView";
-import { log } from "./utils";
 
 export default function ContextDemo() {
-  // state for the NameAgeContext
-  const [name, setName] = useState("Chuckie");
-  const [age, setAge] = useState(30);
-
   return (
     <NameAgeProvider>
       <View style={styles.container}>

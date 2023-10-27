@@ -1,5 +1,4 @@
 import { createContext, PropsWithChildren, useState } from "react";
-import { useScale } from "./ScaleContext";
 import { genid, log } from "./utils";
 
 export interface NameAge {
